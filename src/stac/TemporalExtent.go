@@ -1,5 +1,9 @@
 package stac
 
+import (
+	"time"
+)
+
 type TemporalExtent struct {
-	Interval [][]string `json:"interval"`
+	Interval [1][2]time.Time `json:"interval"`
 }

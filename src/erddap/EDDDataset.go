@@ -45,7 +45,8 @@ type EDDDataset struct {
 func NewEDDDataset(url string,
 	id string, title string,
 	description string, eddDatastType string,
-	hostName string, infoUrl string) EDDDataset {
+	hostName string, infoUrl string,
+	startTime time.Time, endTime time.Time) EDDDataset {
 	r, e := http.Get(url)
 	if e == nil {
 		c, e := ioutil.ReadAll(r.Body)
@@ -101,6 +102,8 @@ func NewEDDDataset(url string,
 					EddDatastType:     eddDatastType,
 					HostName:          hostName,
 					InfoUrl:           infoUrl,
+					TimeMin:           startTime,
+					TimeMax:           endTime,
 				}
 				return edd
 			} else {
@@ -128,6 +131,9 @@ func EDDDatasetToSTACCollection(dataset EDDDataset) stac.Collection {
 	sc.CollectionExtent.Spatial.Bbox[0][1] = dataset.BoundingBoxMinLat
 	sc.CollectionExtent.Spatial.Bbox[0][2] = dataset.BoundingBoxMaxLon
 	sc.CollectionExtent.Spatial.Bbox[0][3] = dataset.BoundingBoxMaxLat
+	// TODO: handle null times
+	sc.CollectionExtent.Temporal.Interval[0][0] = dataset.TimeMin
+	sc.CollectionExtent.Temporal.Interval[0][1] = dataset.TimeMax
 	sc.Title = dataset.Name
 	sc.Description = dataset.Description
 	sc.Id = dataset.Id //TODO: need to add host id
