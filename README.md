@@ -38,4 +38,7 @@ In the current implementation the following design approach has been taken:
 1. There are no further external dependencies in the software
 
 ## TODO
+1. Add summaries, assets and item_assets to the STAC Collection definition
+1. Handle null times in the STAC Collection definition
 1. Create a Docker container to allow swift deployment of this software anywhere
+1. Map license specifications to SPDX entries

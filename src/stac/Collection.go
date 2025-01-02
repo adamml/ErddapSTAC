@@ -1,5 +1,7 @@
 package stac
 
+// TODO: Add Summaries, Assets and Item Assets
+
 type Collection struct {
 	Type             string     `json:"type"`
 	StacVersion      string     `json:"stac_version"`

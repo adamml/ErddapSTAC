@@ -119,10 +119,15 @@ func NewEDDDataset(url string,
 	return edd
 }
 
-func EDDDatasetToSTACCollection(dataset EDDDataset) stac.Collection {
+func EDDDatasetToSTACCollection(dataset EDDDataset, baseURL string) stac.Collection {
 	var provider stac.Provider
 	provider.Name = dataset.HostName
 	provider.Url = dataset.InfoUrl
+
+	links := []stac.Link{}
+	links = append(links, stac.Link{Href: "./" + strings.ToLower(dataset.HostName) + "_catalog.json", Rel: stac.STAC_LINK_RELTYPE_PARENT, Type: stac.STAC_CATALOG_MIME_TYPE})
+	links = append(links, stac.Link{Href: "./" + strings.ToLower(dataset.HostName) + "_" + strings.ToLower(dataset.Id) + "_item.json", Rel: stac.STAC_LINK_RELTYPE_ITEM, Type: stac.STAC_ITEM_MIME_TYPE})
+	links = append(links, stac.Link{Href: baseURL + strings.ToLower(dataset.HostName) + "_" + strings.ToLower(dataset.Id) + "_collection.json", Rel: stac.STAC_LINK_RELTYPE_SELF, Type: stac.STAC_COLLECTION_MIME_TYPE})
 
 	sc := stac.NewCollection()
 	sc.Keywords = dataset.Keywords
@@ -136,7 +141,8 @@ func EDDDatasetToSTACCollection(dataset EDDDataset) stac.Collection {
 	sc.CollectionExtent.Temporal.Interval[0][1] = dataset.TimeMax
 	sc.Title = dataset.Name
 	sc.Description = dataset.Description
-	sc.Id = dataset.Id //TODO: need to add host id
+	sc.Id = strings.ToLower(dataset.HostName) + "_" + strings.ToLower(dataset.Id) + "_collection" //TODO: need to add host id
 	sc.Providers = append(sc.Providers, provider)
+	sc.Links = links
 	return sc
 }
