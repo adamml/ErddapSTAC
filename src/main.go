@@ -38,7 +38,11 @@ func main() {
 		t.Table.Rows[9][0], t.Table.Rows[9][3], t.Table.Rows[9][8],
 		eddType, t.Table.Rows[9][1], t.Table.Rows[9][6],
 		startTime, endTime)
-	stac_c := erddap.EDDDatasetToSTACCollection(edd, baseURL)
+	stac_c := edd.ToSTACCollection(baseURL)
 	a, _ := json.Marshal(stac_c)
+	stac_i := edd.ToSTACItem(baseURL)
+	b, _ := json.Marshal(stac_i)
+	edd.DatasetUriToMetadataUri()
 	fmt.Println(string(a))
+	fmt.Println(string(b))
 }

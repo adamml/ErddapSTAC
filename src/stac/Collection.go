@@ -18,7 +18,7 @@ type Collection struct {
 
 func NewCollection() Collection {
 	return Collection{
-		Type:           "Collection",
+		Type:           STAC_TYPES_COLLECTION,
 		StacVersion:    STAC_VERSION,
 		StacExtensions: make([]string, 0),
 		Providers:      make([]Provider, 0),

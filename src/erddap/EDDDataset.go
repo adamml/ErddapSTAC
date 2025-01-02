@@ -119,7 +119,7 @@ func NewEDDDataset(url string,
 	return edd
 }
 
-func EDDDatasetToSTACCollection(dataset EDDDataset, baseURL string) stac.Collection {
+func (dataset EDDDataset) ToSTACCollection(baseURL string) stac.Collection {
 	var provider stac.Provider
 	provider.Name = dataset.HostName
 	provider.Url = dataset.InfoUrl
@@ -132,6 +132,11 @@ func EDDDatasetToSTACCollection(dataset EDDDataset, baseURL string) stac.Collect
 	sc := stac.NewCollection()
 	sc.Keywords = dataset.Keywords
 	sc.License = dataset.License
+
+	if dataset.EddDatastType == EDD_TABLE {
+		sc.StacExtensions = append(sc.StacExtensions, string(stac.STAC_EXTENSIONS_TABLE))
+	}
+
 	sc.CollectionExtent.Spatial.Bbox[0][0] = dataset.BoundingBoxMinLon
 	sc.CollectionExtent.Spatial.Bbox[0][1] = dataset.BoundingBoxMinLat
 	sc.CollectionExtent.Spatial.Bbox[0][2] = dataset.BoundingBoxMaxLon
@@ -144,5 +149,62 @@ func EDDDatasetToSTACCollection(dataset EDDDataset, baseURL string) stac.Collect
 	sc.Id = strings.ToLower(dataset.HostName) + "_" + strings.ToLower(dataset.Id) + "_collection" //TODO: need to add host id
 	sc.Providers = append(sc.Providers, provider)
 	sc.Links = links
+	sc.Keywords = dataset.Keywords
 	return sc
+}
+
+func (dataset EDDDataset) DatasetUriToMetadataUri() string {
+	uri := dataset.Uri
+	uri = strings.Split(uri, "erddap/")[0]
+	return uri + "erddap/metadata/iso19115/xml/" + dataset.Id + "_iso19115.xml"
+}
+
+func (dataset EDDDataset) ToSTACItem(baseURL string) stac.Item {
+	item := stac.NewItem()
+
+	item.Id = strings.ToLower(dataset.HostName) + "_ " + strings.ToLower(dataset.Id) + "_item"
+
+	item.Bbox = append(item.Bbox, dataset.BoundingBoxMinLon)
+	item.Bbox = append(item.Bbox, dataset.BoundingBoxMinLat)
+	item.Bbox = append(item.Bbox, dataset.BoundingBoxMaxLon)
+	item.Bbox = append(item.Bbox, dataset.BoundingBoxMaxLat)
+
+	item.Properties.Title = dataset.Name
+	item.Properties.Description = dataset.Description
+
+	item.Properties.StartTime = dataset.TimeMin.String()
+	item.Properties.EndTime = dataset.TimeMax.String()
+
+	md := stac.Asset{
+		Href:  dataset.DatasetUriToMetadataUri(),
+		Type:  stac.STAC_ASSET_MEDIA_TYPE_XML,
+		Title: "ISO19115 metadata",
+		Roles: []string{},
+	}
+	md.Roles = append(md.Roles, stac.STAC_ASSET_ROLE_METADATA)
+	item.Assets["metadata"] = md
+
+	d := stac.Asset{
+		Href:  dataset.Uri,
+		Type:  stac.STAC_ASSET_MEDIA_TYPE_JSON,
+		Title: "JSON Data",
+		Roles: []string{},
+	}
+	d.Roles = append(d.Roles, stac.STAC_ASSET_ROLE_DATA)
+	item.Assets["json_data"] = d
+
+	d2 := stac.Asset{
+		Href:  dataset.Uri,
+		Type:  stac.STAC_ASSET_MEDIA_TYPE_NETCDF,
+		Title: "NetCDF Data",
+		Roles: []string{},
+	}
+	d2.Roles = append(d2.Roles, stac.STAC_ASSET_ROLE_DATA)
+	item.Assets["netcdf_data"] = d2
+
+	item.Properties.Keywords = dataset.Keywords
+
+	item.Geometry.Coordinates = append(item.Geometry.Coordinates, []float32{})
+
+	return item
 }
