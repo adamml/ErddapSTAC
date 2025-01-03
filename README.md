@@ -2,7 +2,7 @@
 
 A simple programme to create a [STAC](https://github.com/radiantearth/stac-spec)
 catalog for the datasets served by instances of NOAA's 
-[Erddap](https://github.com/ERDDAP/erddap) sserver software.
+[Erddap](https://github.com/ERDDAP/erddap) server software.
 
 ## Motivation
 
@@ -29,7 +29,7 @@ In the current implementation the following design approach has been taken:
 
 - There is one top level STAC Catalog which represents all crawled instances of Erddap
 - Each encountered Erddap dataset is represented as a STAC Collection in that top level STAC Catalog
-- Each STAC Collection is also linked to a STAC Item which represents the NetCDF file offereing of the dataset from an Erddap server
+- Each STAC Collection is also linked to a STAC Item which represents the JSON and NetCDF file offereings of the dataset from an Erddap server
 
 ## Getting set up
 
@@ -40,5 +40,7 @@ In the current implementation the following design approach has been taken:
 ## TODO
 1. Add summaries, assets and item_assets to the STAC Collection definition
 1. Handle null times in the STAC Collection definition
+1. Improve the handling of Null / Fill values in the table definition
+1. Improve the GeoJSON Feature representations
 1. Create a Docker container to allow swift deployment of this software anywhere
 1. Map license specifications to SPDX entries

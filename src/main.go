@@ -19,7 +19,9 @@ func main() {
 
 	baseURL := "https://raw.githubusercontent.com/adamml/ErddapSTAC/json/"
 
-	r, _ := http.Get("https://linkedsystems.uk/erddap/tabledap/allDatasets.json?datasetID%2Cinstitution%2CdataStructure%2Ctitle%2CminTime%2CmaxTime%2CinfoUrl%2Cemail%2Csummary")
+	r, _ := http.Get("https://linkedsystems.uk/erddap/tabledap/allDatasets" +
+		".json?datasetID%2Cinstitution%2CdataStructure%2Ctitle%2CminTime%2C" +
+		"maxTime%2CinfoUrl%2Cemail%2Csummary")
 	c, _ := ioutil.ReadAll(r.Body)
 
 	_ = json.Unmarshal(c, &t)
@@ -42,7 +44,6 @@ func main() {
 	a, _ := json.Marshal(stac_c)
 	stac_i := edd.ToSTACItem(baseURL)
 	b, _ := json.Marshal(stac_i)
-	edd.DatasetUriToMetadataUri()
 	fmt.Println(string(a))
 	fmt.Println(string(b))
 }
