@@ -348,5 +348,31 @@ func (dataset EDDDataset) ToSTACItem(baseURL string) stac.Item {
 		item.Properties.TableColumns = dataset.Variables
 	}
 
+	links := []stac.Link{}
+	links = append(links, stac.Link{Href: "./" +
+		strings.ToLower(dataset.HostName) + "_catalog.json",
+		Rel:  stac.STAC_LINK_RELTYPE_ROOT,
+		Type: stac.STAC_CATALOG_MIME_TYPE})
+	links = append(links, stac.Link{Href: "./" +
+		strings.ToLower(dataset.HostName) + "_" +
+		strings.ToLower(dataset.Id) + "_collection.json",
+		Rel:  stac.STAC_LINK_RELTYPE_COLLECTION,
+		Type: stac.STAC_COLLECTION_MIME_TYPE})
+	links = append(links, stac.Link{Href: "./" +
+		strings.ToLower(dataset.HostName) + "_" +
+		strings.ToLower(dataset.Id) + "_collection.json",
+		Rel:  stac.STAC_LINK_RELTYPE_PARENT,
+		Type: stac.STAC_COLLECTION_MIME_TYPE})
+	links = append(links, stac.Link{Href: baseURL +
+		strings.ToLower(dataset.HostName) + "_" +
+		strings.ToLower(dataset.Id) + "_item.json",
+		Rel:  stac.STAC_LINK_RELTYPE_SELF,
+		Type: stac.STAC_ITEM_MIME_TYPE})
+
+	item.Links = links
+
+	item.Collection = strings.ToLower(dataset.HostName) + "_" +
+		strings.ToLower(dataset.Id) + "_collection"
+
 	return item
 }

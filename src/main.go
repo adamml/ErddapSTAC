@@ -4,9 +4,10 @@ package main
 import (
 	"ErddapSTAC/src/erddap"
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"net/http"
+	"os"
+	"strings"
 	"time"
 )
 
@@ -41,9 +42,26 @@ func main() {
 		eddType, t.Table.Rows[9][1], t.Table.Rows[9][6],
 		startTime, endTime)
 	stac_c := edd.ToSTACCollection(baseURL)
-	a, _ := json.Marshal(stac_c)
 	stac_i := edd.ToSTACItem(baseURL)
-	b, _ := json.Marshal(stac_i)
-	fmt.Println(string(a))
-	fmt.Println(string(b))
+	a, _ := json.MarshalIndent(stac_c, "", "    ")
+	b, _ := json.MarshalIndent(stac_i, "", "    ")
+
+	pwd, _ := os.Getwd()
+	var outdir string
+	if strings.Index(pwd, "\\") > 0 {
+		pwdSlice := strings.Split(pwd, "\\")
+		for k := 0; k < len(pwdSlice)-1; k++ {
+			outdir = outdir + pwdSlice[k] + "\\"
+		}
+		outdir = outdir + "json\\"
+	} else {
+		pwdSlice := strings.Split(pwd, "/")
+		for k := 0; k < len(pwdSlice)-1; k++ {
+			outdir = outdir + pwdSlice[k] + "/"
+		}
+		outdir = outdir + "json/"
+	}
+
+	ioutil.WriteFile(outdir+stac_c.Id+".json", a, os.ModePerm)
+	ioutil.WriteFile(outdir+stac_i.Id+".json", b, os.ModePerm)
 }

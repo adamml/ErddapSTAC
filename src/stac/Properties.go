@@ -14,5 +14,5 @@ type Properties struct {
 	EndTime      string        `json:"end_datetime,omitempty"`
 	License      string        `json:"license,omitempty"`
 	Providers    []Provider    `json:"providers,omitempty"`
-	TableColumns []TableColumn `json"table:columns,omitempty"`
+	TableColumns []TableColumn `json:"table:columns,omitempty"`
 }
