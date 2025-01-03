@@ -1,7 +1,7 @@
 {
     "type": "Feature",
     "stac_version": "1.1.0",
-    "id": "noc_ amazon_622_r_item",
+    "id": "noc_amazon_622_r_item",
     "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -462,7 +462,7 @@
             "type": "application/json"
         },
         {
-            "href": "https://raw.githubusercontent.com/adamml/ErddapSTAC/json/noc_amazon_622_r_item.json",
+            "href": "https://raw.githubusercontent.com/adamml/ErddapSTAC/refs/heads/main/json/noc_amazon_622_r_item.json",
             "rel": "self",
             "type": "application/geo+json"
         }

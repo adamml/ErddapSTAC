@@ -18,7 +18,7 @@ func main() {
 	var startTime time.Time
 	var endTime time.Time
 
-	baseURL := "https://raw.githubusercontent.com/adamml/ErddapSTAC/json/"
+	baseURL := "https://raw.githubusercontent.com/adamml/ErddapSTAC/refs/heads/main/json/"
 
 	r, _ := http.Get("https://linkedsystems.uk/erddap/tabledap/allDatasets" +
 		".json?datasetID%2Cinstitution%2CdataStructure%2Ctitle%2CminTime%2C" +

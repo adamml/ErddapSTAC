@@ -262,7 +262,7 @@ func (dataset EDDDataset) GetSummaryMapUri() string {
 func (dataset EDDDataset) ToSTACItem(baseURL string) stac.Item {
 	item := stac.NewItem()
 
-	item.Id = (strings.ToLower(dataset.HostName) + "_ " +
+	item.Id = (strings.ToLower(dataset.HostName) + "_" +
 		strings.ToLower(dataset.Id) + "_item")
 
 	item.Bbox = append(item.Bbox, dataset.BoundingBoxMinLon)

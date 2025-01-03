@@ -46,7 +46,7 @@
             "type": "application/geo+json"
         },
         {
-            "href": "https://raw.githubusercontent.com/adamml/ErddapSTAC/json/noc_amazon_622_r_collection.json",
+            "href": "https://raw.githubusercontent.com/adamml/ErddapSTAC/refs/heads/main/json/noc_amazon_622_r_collection.json",
             "rel": "self",
             "type": "application/json"
         }
