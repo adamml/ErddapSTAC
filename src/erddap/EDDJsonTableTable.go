@@ -6,7 +6,7 @@ type EDDJsonTableTable struct {
 	Columnnames []string
 	// Columntypes lists the data types of the columns in the Erddap table response.
 	Columntypes []string
-	//
+	// Column units lists the units of measure of each column in the Erddap table response.
 	Columnunits []string
 	// Rows is a multi-dimensional array of the table rows in the Erddap table response.
 	// Each slice in Row contains items corresponding to the spec in Columnnames and Columntypes.

@@ -31,6 +31,8 @@ In the current implementation the following design approach has been taken:
 - Each encountered Erddap dataset is represented as a STAC Collection in that top level STAC Catalog
 - Each STAC Collection is also linked to a STAC Item which represents the JSON and NetCDF file offereings of the dataset from an Erddap server
 
+_A next iteration will use the subset variables in the Erddap metadata to provide a higher level of granularity at the STAC Item level and better differentiation between the contents of the STAC Collection and STAC Item records._
+
 ## Getting set up
 
 1. Ensure you have a golang environment set up on your target machine
@@ -40,7 +42,8 @@ In the current implementation the following design approach has been taken:
 ## TODO
 1. Add summaries, assets and item_assets to the STAC Collection definition
 1. Handle null times in the STAC Collection definition
-1. Improve the handling of Null / Fill values in the table definition
 1. Improve the GeoJSON Feature representations
 1. Create a Docker container to allow swift deployment of this software anywhere
 1. Map license specifications to SPDX entries
+1. Look at the STAC Grid extension and see if any mapping from Erddap Griddap types is worthwhile
+1. Use the `subsetVariables` metadata field on Erddap datasets to improve the STAC Item granularity

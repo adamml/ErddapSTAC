@@ -1,0 +1,68 @@
+{
+    "type": "Collection",
+    "stac_version": "1.1.0",
+    "stac_extensions": [
+        "https://stac-extensions.github.io/table/v1.2.0/schema.json"
+    ],
+    "id": "b81ba666-c9dc-4243-a6d2-c701e7bf99c1",
+    "title": "Ireland's Marine Institute Research Vessel Underway Data 2003 - to date",
+    "description": "Dataset of selected reserach vessel underway observations and measurements include sea surface temperature, sea surface salinity, raw fluorometer voltage, air temperature, atmospheric pressure, relative humidity, wind speed and direction, vessel sounding and vessel navigation measurements including location, heave, pitch, roll, heading and speed. The period covered by the dataset is 2003 and includes ongoing data collection on the MI's research vessels.",
+    "keywords": [
+        "Air pressure",
+        "Air temperature",
+        "Atmospheric humidity",
+        "Bathymetry and Elevation",
+        "Electrical conductivity of the water column",
+        "Horizontal platform movement",
+        "Platform or instrument orientation",
+        "Raw fluorometer output",
+        "Salinity of the water column",
+        "Temperature of the water column",
+        "Wave height estimates",
+        "Wind strength and direction"
+    ],
+    "license": "CC-BY-4.0",
+    "providers": [
+        {
+            "name": "Marine Institute",
+            "url": "http://data.marine.ie/geonetwork/srv/eng/catalog.search#/metadata/ie.marine.data:dataset.845"
+        }
+    ],
+    "extent": {
+        "spatial": {
+            "bbox": [
+                [
+                    -58.2752,
+                    36.1538,
+                    18.7312,
+                    78.9149
+                ]
+            ]
+        },
+        "temporal": {
+            "interval": [
+                [
+                    "2021-08-01T19:03:30Z",
+                    "2021-08-31T20:10:00Z"
+                ]
+            ]
+        }
+    },
+    "links": [
+        {
+            "href": "./81f3c386-ac3c-4736-99f3-2cd4e6b13d15.json",
+            "rel": "parent",
+            "type": "application/json"
+        },
+        {
+            "href": "./a099b093-7254-4b3b-a5aa-252163e802c4.json",
+            "rel": "item",
+            "type": "application/geo+json"
+        },
+        {
+            "href": "https://raw.githubusercontent.com/adamml/ErddapSTAC/refs/heads/main/json/b81ba666-c9dc-4243-a6d2-c701e7bf99c1.json",
+            "rel": "self",
+            "type": "application/json"
+        }
+    ]
+}
