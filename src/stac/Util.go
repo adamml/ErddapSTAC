@@ -24,6 +24,9 @@ const STAC_LINK_RELTYPE_ITEM = "item"
 // Constant to define the schema location for the STAC Table extension
 const STAC_EXTENSIONS_TABLE = "https://stac-extensions.github.io/table/v1.2.0/schema.json"
 
+// Constant to define the STAC 'type' for "Catalog"
+const STAC_TYPES_CATALOG = "Catalog"
+
 // Constant to define the STAC 'type' for "Collection"
 const STAC_TYPES_COLLECTION = "Collection"
 

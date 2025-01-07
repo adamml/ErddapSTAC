@@ -129,38 +129,54 @@ func NewEDDDataset(url string,
 								bboxMinLon, e = strconv.ParseFloat(
 									jsTable.Table.Rows[i][4], 32)
 							} else if jsTable.Table.Rows[i][2] == "keywords" {
-								keywords = strings.Split(jsTable.Table.Rows[i][4], ",")
+								keywords = strings.Split(
+									jsTable.Table.Rows[i][4], ",")
 								for ii := 0; ii < len(keywords); ii++ {
-									keywords[ii] = strings.Trim(keywords[ii], " ")
+									keywords[ii] = strings.Trim(
+										keywords[ii], " ")
 								}
 							} else if jsTable.Table.Rows[i][2] == "license" {
 								license = jsTable.Table.Rows[i][4]
 							} else if jsTable.Table.Rows[i][2] == "date_created" {
 								err = nil
-								createdTime, err = time.Parse(EDD_PROVENANCE_TIME_LAYOUT, jsTable.Table.Rows[i][4])
+								createdTime, err = time.Parse(
+									EDD_PROVENANCE_TIME_LAYOUT,
+									jsTable.Table.Rows[i][4])
 								if err != nil {
-									createdTime, err = time.Parse("2006-01-02", jsTable.Table.Rows[i][4][0:10])
+									createdTime, err = time.Parse(
+										"2006-01-02",
+										jsTable.Table.Rows[i][4][0:10])
 								}
 							} else if jsTable.Table.Rows[i][2] == "date_modified" {
 								err = nil
-								modifiedTime, err = time.Parse(EDD_PROVENANCE_TIME_LAYOUT, jsTable.Table.Rows[i][4])
+								modifiedTime, err = time.Parse(
+									EDD_PROVENANCE_TIME_LAYOUT,
+									jsTable.Table.Rows[i][4])
 								if err != nil {
-									modifiedTime, err = time.Parse("2006-01-02", jsTable.Table.Rows[i][4][0:10])
+									modifiedTime, err = time.Parse(
+										"2006-01-02",
+										jsTable.Table.Rows[i][4][0:10])
 								}
 							} else if jsTable.Table.Rows[i][2] == "metadata_link" {
 								mdLink = jsTable.Table.Rows[i][4]
 							} else if jsTable.Table.Rows[i][2] == "subsetVariables" {
-								subsetVariables = strings.Split(jsTable.Table.Rows[i][4], ",")
+								subsetVariables = strings.Split(
+									jsTable.Table.Rows[i][4],
+									",")
 							} else if jsTable.Table.Rows[i][2] == "time_coverage_start" {
 								if startTime.Year() == 1 {
 									if startTime.YearDay() == 1 {
-										startTime, _ = time.Parse(EDD_TIME_LAYOUT, jsTable.Table.Rows[i][4])
+										startTime, _ = time.Parse(
+											EDD_TIME_LAYOUT,
+											jsTable.Table.Rows[i][4])
 									}
 								}
 							} else if jsTable.Table.Rows[i][2] == "time_coverage_end" {
 								if endTime.Year() == 1 {
 									if endTime.YearDay() == 1 {
-										endTime, _ = time.Parse(EDD_TIME_LAYOUT, jsTable.Table.Rows[i][4])
+										endTime, _ = time.Parse(
+											EDD_TIME_LAYOUT,
+											jsTable.Table.Rows[i][4])
 									}
 								}
 							}
@@ -187,9 +203,11 @@ func NewEDDDataset(url string,
 							for j := 0; j < len(variables); j++ {
 								if variables[j].Name == jsTable.Table.Rows[i][1] {
 									if jsTable.Table.Rows[i][3] == "double" {
-										variables[j].NoData, _ = strconv.ParseFloat(jsTable.Table.Rows[i][4], 64)
+										variables[j].NoData, _ = strconv.ParseFloat(
+											jsTable.Table.Rows[i][4], 64)
 									} else if jsTable.Table.Rows[i][3] == "int" {
-										variables[j].NoData, _ = strconv.ParseInt(jsTable.Table.Rows[i][4], 0, 64)
+										variables[j].NoData, _ = strconv.ParseInt(
+											jsTable.Table.Rows[i][4], 0, 64)
 									} else {
 										variables[j].NoData = jsTable.Table.Rows[i][4]
 									}
@@ -198,9 +216,11 @@ func NewEDDDataset(url string,
 						} else if jsTable.Table.Rows[i][2] == "actual_range" {
 							for j := 0; j < len(variables); j++ {
 								if variables[j].Name == jsTable.Table.Rows[i][1] {
-									sSplit := strings.SplitN(jsTable.Table.Rows[i][4], ",", 2)
+									sSplit := strings.SplitN(
+										jsTable.Table.Rows[i][4], ",", 2)
 									mn, _ := strconv.ParseFloat(sSplit[0], 64)
-									mx, _ := strconv.ParseFloat(strings.Trim(sSplit[1], " "), 64)
+									mx, _ := strconv.ParseFloat(
+										strings.Trim(sSplit[1], " "), 64)
 									variables[j].Statistics.Minimum = mn
 									variables[j].Statistics.Maximum = mx
 								}
@@ -251,9 +271,10 @@ func NewEDDDataset(url string,
 	return edd
 }
 
-// toSTACCollection(baseURL) exports an EDDDataset as a stac.Collection. As STAC Collections
-// require an absolute URI, baseURL provides the absolute URI reference to the parent
-// folder of the JSON file that the stac.Collection will be serialised to.
+// ToSTACCollection(baseURL) exports an EDDDataset as a stac.Collection. As
+// STAC Collections require an absolute URI, baseURL provides the absolute URI
+// reference to the parent folder of the JSON file that the stac.Collection will
+// be serialised to.
 func (dataset EDDDataset) ToSTACCollection(baseURL string) stac.Collection {
 	var provider stac.Provider
 	provider.Name = dataset.HostName
@@ -299,7 +320,8 @@ func (dataset EDDDataset) ToSTACCollection(baseURL string) stac.Collection {
 	return sc
 }
 
-// GetMetadataUri returns an HTTP URL pointing to the ISO19115 XML metadata record for the Erddap dataset as a string
+// GetMetadataUri returns an HTTP URL pointing to the ISO19115 XML metadata
+// record for the Erddap dataset as a string
 func (dataset EDDDataset) GetMetadataUri() string {
 	uri := dataset.Uri
 	uri = strings.Split(uri, "erddap/")[0]
@@ -378,15 +400,20 @@ func (dataset EDDDataset) GetSummaryMapUri() string {
 	uri := dataset.Uri
 	uri = strings.Split(uri, "erddap/")[0]
 	if dataset.EddDatastType == EDD_TABLE {
-		return uri + "erddap/tabledap/" + dataset.Id + ".png?longitude,latitude&.draw=markers&.marker=3%7C5&.color=0xFF9900&.colorBar=%7C%7C%7C%7C%7C&.bgColor=0xffccccff"
+		return uri + "erddap/tabledap/" + dataset.Id + ".png?longitude," +
+			"latitude&.draw=markers&.marker=3%7C5&.color=0xFF9900&" +
+			".colorBar=%7C%7C%7C%7C%7C&.bgColor=0xffccccff"
 	} else {
-		return uri + "erddap/griddap/" + dataset.Id + ".png?longitude,latitude&.draw=markers&.marker=3%7C5&.color=0xFF9900&.colorBar=%7C%7C%7C%7C%7C&.bgColor=0xffccccff"
+		return uri + "erddap/griddap/" + dataset.Id + ".png?longitude," +
+			"latitude&.draw=markers&.marker=3%7C5&.color=0xFF9900&" +
+			".colorBar=%7C%7C%7C%7C%7C&.bgColor=0xffccccff"
 	}
 }
 
 // ToSTACItem(baseURL) exports a stac.Item based on the entire EDDDataset.
-// As a STAC Item requires an absolute URI, baseURL provides the absolute URI reference to the parent
-// folder of the JSON file that the stac.Collection will be serialised to.
+// As a STAC Item requires an absolute URI, baseURL provides the absolute
+// URI reference to the parent folder of the JSON file that the stac.Collection
+// will be serialised to.
 func (dataset EDDDataset) ToSTACItem(baseURL string) stac.Item {
 	item := stac.NewItem()
 
@@ -465,11 +492,16 @@ func (dataset EDDDataset) ToSTACItem(baseURL string) stac.Item {
 	//TODO: We can get a better geographic envelope for the dataset by
 	//interrogating the dataset on the Erddap server
 	item.Geometry.Type = stac.GEOJSON_TYPE_POLYGON
-	bottom_left := [2]float32{dataset.BoundingBoxMinLon, dataset.BoundingBoxMinLat}
-	top_left := [2]float32{dataset.BoundingBoxMinLon, dataset.BoundingBoxMaxLat}
-	top_right := [2]float32{dataset.BoundingBoxMaxLon, dataset.BoundingBoxMaxLat}
-	bottom_right := [2]float32{dataset.BoundingBoxMaxLon, dataset.BoundingBoxMinLat}
-	item.Geometry.Coordinates = []interface{}{bottom_left, top_left, top_right, bottom_right, bottom_left}
+	bottom_left := [2]float32{dataset.BoundingBoxMinLon,
+		dataset.BoundingBoxMinLat}
+	top_left := [2]float32{dataset.BoundingBoxMinLon,
+		dataset.BoundingBoxMaxLat}
+	top_right := [2]float32{dataset.BoundingBoxMaxLon,
+		dataset.BoundingBoxMaxLat}
+	bottom_right := [2]float32{dataset.BoundingBoxMaxLon,
+		dataset.BoundingBoxMinLat}
+	item.Geometry.Coordinates = []interface{}{bottom_left, top_left, top_right,
+		bottom_right, bottom_left}
 
 	if dataset.EddDatastType == EDD_TABLE {
 		item.Properties.TableColumns = dataset.Variables
